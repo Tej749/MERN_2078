@@ -18,18 +18,21 @@ app.get("/blog", (req, res) => {
   });
 });
 
-app.post("/blog", (req, res) => {
-  console.log(req.body)
+app.post("/blog", async (req, res) => {
+  const { faculty, course, mentor, image } = req.body;
+  console.log(req.body);
+  
+  await Blog.create({
+    faculty: faculty,
+    course: course,
+    mentor: mentor,
+    image: image,
+  });
+
   res.status(200).json({
     msg: "Post API hit successfully....",
   });
 });
-
-
-
-
-
-
 
 app.listen(process.env.PORT, () => {
   console.log("Your nodejs project has been started....");

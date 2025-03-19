@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 const blogSchema = new Schema({
   faculty: {
     type: String,
-    unique: true,
   },
   course: {
     type: String,
