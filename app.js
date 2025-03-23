@@ -18,12 +18,6 @@ app.get("/", (req, res) => {
   res.send("Welcome to Home Page....");
 });
 
-app.get("/blog", (req, res) => {
-  res.status(200).json({
-    msg: "This is Blog Page today we face lots of challenges maintaing error code Shiristi...",
-  });
-});
-
 // create (C)
 app.post("/blog", upload.single("image"), async (req, res) => {
   const { faculty, course, mentor } = req.body; // text for data
@@ -31,6 +25,8 @@ app.post("/blog", upload.single("image"), async (req, res) => {
   const filename = req.file.filename; // multipart / form-data
 
   console.log(req.body);
+  console.log(filename);
+  console.log(req.file);
 
   if (!faculty || !course || !mentor) {
     return res.status(400).json({
@@ -48,6 +44,17 @@ app.post("/blog", upload.single("image"), async (req, res) => {
     msg: "Post API hit successfully....",
   });
 });
+
+// GET Operation
+app.get("/blog", async (req, res) => {
+  const blogs = await Blog.find();
+  res.status(200).json({
+    msg: "Blog fetch successfully",
+    data: blogs,
+  });
+});
+
+app.use(express.static("./storage"));
 
 app.listen(process.env.PORT, () => {
   console.log("Your nodejs project has been started....");

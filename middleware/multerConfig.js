@@ -6,7 +6,7 @@ const storage = multer.diskStorage({
     cb(null, "./storage"); // callback (error, success)
   },
   filename: function (req, file, cb) {
-    cb(null, "pranajal-" + file.originalname); // file lai naming gareko
+    cb(null, Date.now() + "-" + file.originalname); // file lai naming gareko
   },
 });
 
