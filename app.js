@@ -54,6 +54,9 @@ app.get("/blog", async (req, res) => {
   });
 });
 
+// single get api
+app.get("/blog")
+
 app.use(express.static("./storage"));
 
 app.listen(process.env.PORT, () => {
