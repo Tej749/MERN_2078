@@ -55,7 +55,15 @@ app.get("/blog", async (req, res) => {
 });
 
 // single get api
-app.get("/blog")
+app.get("/blog/:id", async (req, res) => {
+  // const id = req.params.id
+  const { id } = req.params;
+  const blog = await Blog.findById(id);
+  res.status(200).json({
+    msg: "Single Blog fetch successfully",
+    data: blog,
+  });
+});
 
 app.use(express.static("./storage"));
 
