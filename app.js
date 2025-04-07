@@ -8,6 +8,7 @@ const upload = multer({ storage: storage });
 
 const app = express();
 app.use(express.json());
+const fs = require("fs");
 
 storage;
 
@@ -59,9 +60,32 @@ app.get("/blog/:id", async (req, res) => {
   // const id = req.params.id
   const { id } = req.params;
   const blog = await Blog.findById(id);
+
+  if (!blog) {
+    return res.status(404).json({
+      msg: "please enter correct id",
+    });
+  }
+
   res.status(200).json({
     msg: "Single Blog fetch successfully",
     data: blog,
+  });
+});
+
+app.delete("/blog/:id", async (req, res) => {
+  const { id } = req.params;
+  await Blog.findByIdAndDelete(id);
+
+  fs.unlink("storage/t.png", (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("File deleted successfully...");
+    }
+  });
+  res.status(200).json({
+    msg: "Blog deleted successfully..",
   });
 });
 
