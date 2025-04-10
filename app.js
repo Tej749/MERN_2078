@@ -73,17 +73,21 @@ app.get("/blog/:id", async (req, res) => {
   });
 });
 
+// Delete Operation
+
 app.delete("/blog/:id", async (req, res) => {
   const { id } = req.params;
-  await Blog.findByIdAndDelete(id);
+  const blog = await Blog.findById(id);
+  const imageName = blog.image;
 
-  fs.unlink("storage/t.png", (err) => {
+  fs.unlink(`storage/${imageName}`, (err) => {
     if (err) {
       console.log(err);
     } else {
       console.log("File deleted successfully...");
     }
   });
+  await Blog.findByIdAndDelete(id);
   res.status(200).json({
     msg: "Blog deleted successfully..",
   });
