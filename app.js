@@ -73,6 +73,21 @@ app.get("/blog/:id", async (req, res) => {
   });
 });
 
+// Update (partial update : patch method)
+
+app.patch("/blog/:id", async (req, res) => {
+  const id = req.params.id;
+  const { faculty, course, mentor } = req.body;
+  await Blog.findByIdAndUpdate(id, {
+    faculty: faculty,
+    course: course,
+    mentor: mentor,
+  });
+  res.status(200).json({
+    msg: "Blog updated successfully....!",
+  });
+});
+
 // Delete Operation
 
 app.delete("/blog/:id", async (req, res) => {
