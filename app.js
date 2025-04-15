@@ -75,13 +75,27 @@ app.get("/blog/:id", async (req, res) => {
 
 // Update (partial update : patch method)
 
-app.patch("/blog/:id", async (req, res) => {
+app.patch("/blog/:id", upload.single("image"), async (req, res) => {
   const id = req.params.id;
   const { faculty, course, mentor } = req.body;
+  let imageName;
+  if (req.file) {
+    imageName = req.file.filename;
+    const blog = await Blog.findById(id);
+    const oldImageName = blog.image;
+    fs.unlink(`storage/${oldImageName}`, (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("File deleted successfully...");
+      }
+    });
+  }
   await Blog.findByIdAndUpdate(id, {
     faculty: faculty,
     course: course,
     mentor: mentor,
+    image: imageName,
   });
   res.status(200).json({
     msg: "Blog updated successfully....!",
