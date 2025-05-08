@@ -10,7 +10,12 @@ const app = express();
 app.use(express.json());
 const fs = require("fs");
 
-storage;
+const cors = require("cors");
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 
 connectDatabase();
 // Read (R)
